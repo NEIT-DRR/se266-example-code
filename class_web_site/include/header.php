@@ -109,7 +109,7 @@ li {
   <a href="../site/heroku_resources.php">Heroku Resources</a>
   <a href="../site/php_resources.php">PHP Resources</a>
   <a href="../site/git_resources.php">Git Resources</a>
-  <a href="https://github.com/tmhvrml/se266-example-code">My GitHub Repo</a>
+  <a href="https://github.com/NEIT-DRR/se266-example-code">My GitHub Repo</a>
 </div>
 
 
