@@ -1,14 +1,19 @@
+
 <?php
-// This file is only to set up the database the application points to.
-// Uncomment the database to use
-// Comment out the other
 
-//// ************************************
-//// Development database
-const DB_CONFIG = "./models/dev_dbconfig.ini";
+$ini = parse_ini_file( __DIR__ . '/dbconfig.ini');
 
-//// ************************************
-//// Production database
-// const DB_CONFIG = "./models/prod_dbconfig.ini";
+// var_dump($ini);
+// exit;
 
-?>
+$db = new PDO(
+                "mysql:host=" . $ini['servername'] . 
+                ";port=" . $ini['port'] . 
+                ";dbname=" . $ini['dbname'], 
+                $ini['username'], 
+                $ini['password']);
+
+
+$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+//var_dump($db);

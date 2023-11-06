@@ -1,61 +1,74 @@
-<?php   
-    require_once __DIR__ . '/controllers/viewController.php';
-?>
-
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>View NFL Teams</title> 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <title>NFL Teams</title>
 </head>
 <body>
+    
+
+
+
     <div class="container">
         
-    <div class="col-sm-offset-2 col-sm-10">
+                
+     <div class="col-sm-12">
         <h1>NFL Teams</h1>
-        <br />
-
-        <!-- Link to add a new team -->
-        <!-- We $_GET the update page with action "Add" -->
-        <a href="updateTeam.php?action=Add">Add New Team</a>      
-        <!-- ---------------------- -->
-
-         <!-- Begin table of teams -->
-         <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Team Name</th>
-                <th>Division</th>
-                <th>Update</th>
-            </tr>
-        </thead>
-        <tbody>
-
-        <!-- Build each row here -->
-        <?php foreach ($teamListing as $row): ?>
-            <tr>
-                <td>
-                    <form action="viewTeams.php" method="post">
-                        <input type="hidden" name="teamId" value="<?= $row['id']; ?>" />
-                        <button class="btn glyphicon glyphicon-trash" type="submit"></button>
-                        <?= $row['teamName']; ?>
-                    </form>   
-                </td>
-                <td><?= $row['division']; ?></td> 
-                <!-- We $_GET the update page with action "Update" -->
-                <td><a href="updateTeam.php?action=Update&teamId=<?= $row['id'] ?>">Update</a></td> 
-            </tr>
-        <?php endforeach; ?>
-        <!-- End table rows -->
        
-        </tbody>
-    </table>
-    <!-- End table of teams -->
-      
+        <a href="add_team.php">Add New Team</a>
+
+   
+    <?php
+        
+        include __DIR__ . '/model/model_teams.php';
+        include __DIR__ . '/functions.php';
+        
+        if(isset($_POST['deleteTeam'])){
+            $id = filter_input(INPUT_POST, 'teamId');
+            deleteTeam($id);
+        }
+
+        $teams = getTeams ();
+        
+        
+    ?>
+  
+    <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Team Name</th>
+                    <th>Division</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+           
+            
+            <?php foreach ($teams as $t):                 
+            ?>
+                <tr>
+                    <td>
+                        <form action='view_teams.php' method='post'>
+                            <input type="hidden" name="teamId" value="<?= $t['id'];?>"/>
+                            <input class="" type="submit" name="deleteTeam" value="Delete" />
+                            <?= $t['id']; ?>
+                        </form>
+                    </td>
+                    <td><?= $t['teamName']; ?></td>
+                    <td><?= $t['division']; ?></td> 
+                    <td><a href="edit_team.php?action=Update&teamId=<?= $t['id']; ?>">Edit</a></td>        
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        
+        <br />
+        <a href="edit_team.php?action=Add">Add New Team</a>
     </div>
     </div>
 </body>
